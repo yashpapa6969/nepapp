@@ -3,9 +3,10 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:nepapp/provider/auth_provider.dart';
+import 'package:nepapp/screens/splash.dart';
 import 'package:provider/provider.dart';
-import 'package:whackiest_2023/provider/auth_provider.dart';
-import 'package:whackiest_2023/screens/splash.dart';
+
 //choose course
 //assignment
 //attendance
@@ -19,11 +20,12 @@ import 'package:whackiest_2023/screens/splash.dart';
 //   }
 // }
 
-Future<void>main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

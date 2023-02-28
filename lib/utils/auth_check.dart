@@ -1,6 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nepapp/provider/auth_provider.dart';
+import 'package:nepapp/screens/about_first.dart';
+import 'package:nepapp/screens/main_class.dart';
+import 'package:nepapp/screens/slider.dart';
+import 'package:nepapp/screens/splash.dart';
 import 'package:provider/provider.dart';
 
 
@@ -41,7 +46,7 @@ class AuthCheck extends StatelessWidget {
                 ? const MainScreen()
                 : FutureBuilder(
                   //  future: auth.tryAutoLogin(),
-                    builder: (ctx, authResultSnapshot) => authResultSnapshot.connectionState == ConnectionState.waiting ? const SplashScreen() : const About(),
+                    builder: (ctx, authResultSnapshot) => authResultSnapshot.connectionState == ConnectionState.waiting ? const SplashScreen() :  slider(),
                   ),
             //routes: {
           //               Login.routeName:(context)=>Login(),

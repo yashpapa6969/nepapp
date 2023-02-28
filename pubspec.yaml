@@ -42,6 +42,8 @@ dependencies:
   shared_preferences: ^2.0.18
   dropdown_button2: ^1.9.2
   http: ^0.13.5
+  lottie: any
+  carousel_slider: ^4.2.1
 
 
 dev_dependencies:
@@ -84,7 +86,23 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: regular
+      fonts:
+        - asset: fonts/PlayfairDisplay-Regular.ttf
+
+    - family: medium
+      fonts:
+        - asset: fonts/Inter-Medium.ttf
+
+    - family: bold
+      fonts:
+        - asset: fonts/Inter-Bold.ttf
+
+    - family: lato
+      fonts:
+        - asset: fonts/Lato-Regular.ttf
+
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

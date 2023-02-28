@@ -28,8 +28,8 @@ class AuthProvider with ChangeNotifier {
 
 
 
-  final HomeRepository _homeRepo = HomeRepository();
-  HomeRepository get homeRepo => _homeRepo;
+ // final HomeRepository _homeRepo = HomeRepository();
+  //   HomeRepository get homeRepo => _homeRepo;
   int status = 0;
   bool mobileError = false;
   bool loading = false;
