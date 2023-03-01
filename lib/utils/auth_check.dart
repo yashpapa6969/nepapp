@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nepapp/provider/auth_provider.dart';
+import 'package:nepapp/provider/register_provider.dart';
 import 'package:nepapp/screens/about_first.dart';
 import 'package:nepapp/screens/main_class.dart';
 import 'package:nepapp/screens/slider.dart';
@@ -27,11 +28,14 @@ class AuthCheck extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: AuthProvider(),
         ),
+        ChangeNotifierProvider.value(
+          value: RegisterProvider(),
+        ),
 
-       // ChangeNotifierProxyProvider<AuthProvider, UserProvider>(
-        //           create: (ctx) => UserProvider(),
-        //           update: (ctx,auth,_) => UserProvider(),
-        //         ),
+        ChangeNotifierProxyProvider<AuthProvider, RegisterProvider>(
+                  create: (ctx) => RegisterProvider(),
+                   update: (ctx,auth,_) => RegisterProvider(),
+                 ),
       ],
       child: Consumer<AuthProvider>(
         builder: (ctx, auth, _) => MaterialApp(

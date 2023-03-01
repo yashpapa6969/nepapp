@@ -47,18 +47,18 @@ class _AboutState extends State<About> {
                   top: height * 0.15, left: 20, right: 20, bottom: height * 0.1),
               child: Column(
                 children: [
-                  Container(
-                      decoration: const BoxDecoration(color: Colors.white),
-                      child: Center(
-                        child: Container(
-                          child: Image(
-                            image: Image.asset('assets/rit_Club_1.png').image,
-                            height: height/4,
-                            width: width,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      )),
+                //  Container(
+                  //                       decoration: const BoxDecoration(color: Colors.white),
+                  //                       child: Center(
+                  //                         child: Container(
+                  //                           child: Image(
+                  //                             image: Image.asset('assets/splash.png').image,
+                  //                             height: height/4,
+                  //                             width: width,
+                  //                             fit: BoxFit.contain,
+                  //                           ),
+                  //                         ),
+                  //                       )),
 
                   const SizedBox(
                     height: 25,
@@ -66,12 +66,12 @@ class _AboutState extends State<About> {
                   Container(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: const Text(
-                      "Welcome To House Of Clubs\n Of MSRIT",
+                      "NepApp",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xff1f1d1d),
                         fontSize: 28,
-                        fontFamily: "regular",
+                        fontFamily: "lato",
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -96,7 +96,7 @@ class _AboutState extends State<About> {
                           ),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
+                              backgroundColor: Color.fromRGBO(221, 161, 7,1),
                             ),
                             onPressed: () {
                               Navigator.push(

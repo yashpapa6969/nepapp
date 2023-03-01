@@ -15,8 +15,7 @@ class ConstantColors {
   static const Color background = Color.fromARGB(255, 236, 241, 245);
   static const Color detailsBackground = Color(0xFFEFF3F9);
   static const Color disabledBtn = Color(0xFFEBF5FF);
-  static const Color button = Color(
-      0x190bd3f6);
+  static const Color button = Color(0x19f6e80b);
 
 
 }
