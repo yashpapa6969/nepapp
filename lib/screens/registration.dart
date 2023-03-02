@@ -70,7 +70,7 @@ class _RegistrationState extends State<Registration> with SingleTickerProviderSt
     double width = MediaQuery.of(context).size.width;
 
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
+      statusBarColor: Colors.transparent,
       //color set to transperent or set your own color
       statusBarIconBrightness: Brightness.dark,
       //set brightness for icons, like dark background light icons

@@ -42,7 +42,7 @@ class _Splash2 extends State<Splash2> {
     double width = MediaQuery.of(context).size.width;
     const Color black = Color(0xFF000000);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
+      statusBarColor: Colors.transparent,
       //color set to transperent or set your own color
       statusBarIconBrightness: Brightness.dark,
       //set brightness for icons, like dark background light icons
