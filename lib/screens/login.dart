@@ -26,9 +26,19 @@ class _LoginState extends State<Login> {
     ));
 
     return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.white,
+                Color.fromRGBO(221, 161, 7,1)
+              ]
+          )
+      ),
 
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -105,7 +115,7 @@ class _LoginState extends State<Login> {
                     onChanged: (value) {
 
                     },
-                    decoration: const InputDecoration(fillColor: Color(0x19f6e80b), filled: true, border: InputBorder.none),
+                    decoration: const InputDecoration(fillColor: Color.fromRGBO(255, 250, 221,1), filled: true, border: InputBorder.none),
                   ),
                 ),
 
@@ -138,7 +148,7 @@ class _LoginState extends State<Login> {
                     onChanged: (value) {
 
                     },
-                    decoration: const InputDecoration(fillColor: Color(0x19f6e80b), filled: true, border: InputBorder.none),
+                    decoration: const InputDecoration(fillColor:Color.fromRGBO(255, 250, 221,1), filled: true, border: InputBorder.none),
                   ),
                 ),
 
@@ -150,7 +160,7 @@ class _LoginState extends State<Login> {
                     height: 50,
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: const Color(0xff1f1d1d)),
+                      style: ElevatedButton.styleFrom(primary: const Color(0xffc54f0d)),
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=> MainScreen()));
                       },
@@ -160,7 +170,7 @@ class _LoginState extends State<Login> {
                           "Submit",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(0xfff6e80b),
+                            color: Colors.white,
                             fontSize: 16,
                             fontFamily: "Lato",
                             fontWeight: FontWeight.w700,

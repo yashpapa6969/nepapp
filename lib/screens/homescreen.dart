@@ -529,7 +529,7 @@ class _HomePageState extends State<HomePage> {
                                       "Tuition payment",
                                       style: TextStyle(
                                         color: Colors.black,
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontFamily: "Chillax",
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -608,7 +608,7 @@ class _HomePageState extends State<HomePage> {
                                     "Hostel allocation",
                                     style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 20,
+                                      fontSize: 18,
                                       fontFamily: "Chillax",
                                       fontWeight: FontWeight.w600,
                                     ),

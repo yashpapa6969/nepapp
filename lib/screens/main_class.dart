@@ -5,6 +5,7 @@ import 'package:nepapp/screens/News.dart';
 import 'package:nepapp/screens/homescreen.dart';
 import 'package:nepapp/screens/notes.dart';
 import 'package:nepapp/utils/colorConstantsswipe.dart';
+import 'package:nepapp/screens/Settings.dart';
 
 
 class MainScreen extends StatefulWidget {
@@ -86,26 +87,12 @@ class _MainScreenState extends State<MainScreen> {
         appBar: AppBar(
           elevation: 0,
           systemOverlayStyle: SystemUiOverlayStyle.dark,
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: const Icon(
-                  Icons.menu,
-                  color: ConstantColors.black,
-                  size: 25,
-                ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-              );
-            },
-          ),
+
           title: Text(
             headers[_selectedIndex],
             style: const TextStyle(
               fontFamily: 'medium',
-              fontSize: 18,
+              fontSize: 20,
               color: Color(0xff000000),
             ),
             textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
@@ -117,10 +104,15 @@ class _MainScreenState extends State<MainScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Image(
-                  image: Image.asset('assets/icons/profile.png').image,
-                  height: 40.0,
-                  width: 40.0,
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Settings()));
+                  },
+                  child: Image(
+                    image: Image.asset('assets/icons/settngs.png').image,
+                    height: 40.0,
+                    width: 40.0,
+                  ),
                 ),
                 const SizedBox(
                   width: 20,
@@ -275,6 +267,8 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   label: "",
                 ),
+
+
 
 
 
