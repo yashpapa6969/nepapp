@@ -78,7 +78,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin{
                     ),
                     alignment: Alignment.centerLeft,
                     child: const Text(
-                      "Register",
+                      "Login",
                       style: TextStyle(
                         color: Color(0xff1f1d1d),
                         fontSize: 28,
@@ -186,8 +186,20 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin{
                     )),
 
                 const SizedBox(
-                  height: 50,
+                  height: 20,
                 ),
+                Container(
+                    decoration: const BoxDecoration(color: Colors.transparent),
+                    child: Center(
+                      child: Container(
+                        child: Image(
+                          image: Image.asset('assets/nepapp_logo.png').image,
+                          height: height/4,
+                          width: width,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    )),
 
 
               ],

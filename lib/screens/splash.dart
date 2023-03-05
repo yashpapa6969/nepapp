@@ -64,13 +64,11 @@ class _Splash2 extends State<Splash2> {
           body: SafeArea(
             child: Container(
                 child: Center(
-                  child: Container(
-                    child: Image(
-                      image: Image.asset('assets/splash.png').image,
-                      height: height/4,
-                      width: width,
-                      fit: BoxFit.contain,
-                    ),
+                  child: Image(
+                    image: Image.asset('assets/nepapp_logo.png').image,
+                    height: height/2,
+                    width: width,
+                    fit: BoxFit.contain,
                   ),
                 )),
           )),

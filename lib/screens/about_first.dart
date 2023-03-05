@@ -44,29 +44,27 @@ class _AboutState extends State<About> {
           child: SingleChildScrollView(
             child: Container(
               margin: EdgeInsets.only(
-                  top: height * 0.15, left: 20, right: 20, bottom: height * 0.1),
+                  top: height * 0.05, left: 20, right: 20, bottom: height * 0.1),
               child: Column(
                 children: [
-                //  Container(
-                  //                       decoration: const BoxDecoration(color: Colors.white),
-                  //                       child: Center(
-                  //                         child: Container(
-                  //                           child: Image(
-                  //                             image: Image.asset('assets/splash.png').image,
-                  //                             height: height/4,
-                  //                             width: width,
-                  //                             fit: BoxFit.contain,
-                  //                           ),
-                  //                         ),
-                  //                       )),
+                 Container(
+                                        decoration: const BoxDecoration(color: Colors.transparent),
+                                        child: Center(
+                                          child: Container(
+                                            child: Image(
+                                              image: Image.asset('assets/nepapp_logo.png').image,
+                                              height: height/2,
+                                              width: width,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                        )),
 
-                  const SizedBox(
-                    height: 25,
-                  ),
+
                   Container(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: const Text(
-                      "NepApp",
+                      "",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xff1f1d1d),

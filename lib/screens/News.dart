@@ -86,7 +86,7 @@ class _NewsState extends State<News> with SingleTickerProviderStateMixin{
                   ),
                   const SizedBox(height: 10,),
                    Text(
-                    "Date" + "${data.NewsItems[i].date}",
+                    "Date:" + "${data.NewsItems[i].date}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
@@ -96,7 +96,7 @@ class _NewsState extends State<News> with SingleTickerProviderStateMixin{
                   ),
                   const SizedBox(height: 10,),
                    Text(
-                    "Description" + "${data.NewsItems[i].text}",
+                    "Description:" + "${data.NewsItems[i].text}",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,

@@ -717,8 +717,9 @@ class _RegistrationState extends State<Registration> with SingleTickerProviderSt
                     )),
 
                 const SizedBox(
-                  height: 50,
+                  height: 20,
                 ),
+
                ],
             ),
           ))),

@@ -112,7 +112,7 @@ class _sliderState extends State<slider> {
           child: Column(
             children: [
               Text(
-                'Select Location',
+                'Register',
                 textAlign: TextAlign.center,
                 style: whiteHeadText(),
               ),
@@ -121,7 +121,7 @@ class _sliderState extends State<slider> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Text('xsvlsrmkmvsvsv',
+                child: Text('Register By Entering Your Basic Information',
                  style: simpleWhiteText(),
                   textAlign: TextAlign.center,
                 ),
@@ -194,7 +194,7 @@ class _sliderState extends State<slider> {
           child: Column(
             children: [
               Text(
-                'Lorem ipsem',
+                'Signin',
                 textAlign: TextAlign.center,
                style: whiteHeadText(),
               ),
@@ -204,7 +204,7 @@ class _sliderState extends State<slider> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Text(
-                  'assets/black young woman in glasses sitting and drinking coffee.png',
+                  'Sign In By Entering Your Credentials',
                  style: simpleWhiteText(),
                   textAlign: TextAlign.center,
                 ),
@@ -277,7 +277,7 @@ class _sliderState extends State<slider> {
           child: Column(
             children: [
               Text(
-                'Lorem ipsem',
+                'Enjoy',
                 textAlign: TextAlign.center,
                 style: whiteHeadText(),
               ),
@@ -286,7 +286,7 @@ class _sliderState extends State<slider> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Text('lorm',
+                child: Text('Use And Share the Application',
                   style: simpleWhiteText(),
                   textAlign: TextAlign.center,
                 ),
