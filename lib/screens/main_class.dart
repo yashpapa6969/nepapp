@@ -1,11 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nepapp/provider/user_provider.dart';
 import 'package:nepapp/screens/News.dart';
 import 'package:nepapp/screens/homescreen.dart';
 import 'package:nepapp/screens/notes.dart';
 import 'package:nepapp/utils/colorConstantsswipe.dart';
 import 'package:nepapp/screens/Settings.dart';
+import 'package:provider/provider.dart';
 
 
 class MainScreen extends StatefulWidget {
@@ -16,7 +18,8 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin{
+
   late ScrollController _scrollController;
   late final PageController _c = PageController(
     initialPage: 0,
@@ -33,6 +36,8 @@ class _MainScreenState extends State<MainScreen> {
   void dispose() {
     super.dispose();
     _scrollController.dispose();
+
+
   }
 
   void _onItemTapped(int index) {

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/services.dart';
+import 'package:nepapp/provider/user_provider.dart';
+import 'package:nepapp/repo/pdf_api.dart';
+import 'package:nepapp/repo/pdfview.dart';
+import 'package:provider/provider.dart';
+import 'dart:io';
+
 
 
 class Notes extends StatefulWidget {
@@ -10,10 +16,34 @@ class Notes extends StatefulWidget {
   State<Notes> createState() => _NotesState();
 }
 
-class _NotesState extends State<Notes> {
+class _NotesState extends State<Notes> with SingleTickerProviderStateMixin{
+  static var _isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isInit) {
+      Provider.of<UserProvider>(context, listen: false).GetNotes();
+      setState(() {
+        _isInit = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    setState(() {
+      _isInit = true;
+    });
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<String> semester = ["I","II","III"];
+    var data = Provider.of<UserProvider>(context);
+
+    List<int> semester = [1,2,3];
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
@@ -31,19 +61,19 @@ class _NotesState extends State<Notes> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                child: Text("Select Semester",   style: TextStyle(
+                child: const Text("Select Semester",   style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
                   fontFamily: "Chillax",
                   fontWeight: FontWeight.w700,
                 ),),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
 
-              Padding(padding: EdgeInsets.only(left: 20,right: 20),
+              Padding(padding: const EdgeInsets.only(left: 20,right: 20),
                 child: Container(
                   height: 40,
-                  width: width/4,
+                  width: width/2,
                   decoration: BoxDecoration(
                     color:  Colors.white,
                     border: Border.all(width: 1, color: Colors.white),
@@ -62,21 +92,21 @@ class _NotesState extends State<Notes> {
                       buttonWidth: 60,
                       itemHeight: 35,
                       dropdownMaxHeight: height * 0.60,
-                      value: semester.first,
+                      value: "${data.semester}",
                       icon:
                       const Icon(Icons.arrow_drop_down, color: Colors.black),
                       onChanged: (newValue) {
-                        //reg.updateGender(newValue!);
+                        //data.updateSemester(ne);
                       },
-                      items: semester.map((String value) {
+                      items: semester.map((int value) {
                         return DropdownMenuItem<String>(
-                          value: value,
+                          value: "${value}",
                           child: Row(
                             children: [
                               const SizedBox(
                                 width: 5,
                               ),
-                              Text(value,
+                              Text("${value}",
                                   style: const TextStyle(
                                     fontFamily: "lato",
                                     color: Colors.black,
@@ -94,11 +124,17 @@ class _NotesState extends State<Notes> {
                 height: 20,
               ),
 
-              ListView(
+              ListView.builder(
+
               shrinkWrap: true,
 
-                  scrollDirection: Axis.vertical,
-                   children: [
+                scrollDirection: Axis.vertical,
+                controller: ScrollController(),
+                itemCount: data.NotesItems.length,
+                itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+                  // builder: (c) => products[i],
+                    value: data.NotesItems[i],
+                   child:
                      Container(
                        margin: const EdgeInsets.all(5),
                        decoration: BoxDecoration(
@@ -120,39 +156,33 @@ class _NotesState extends State<Notes> {
                              child: Row(
                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                children: [
-                                 const Text("Note semester",
 
-                                   style: TextStyle(
-                                     fontFamily: 'Roboto',
-                                     fontSize: 12,
-                                     color: Color(0xffffffdd),
-                                     letterSpacing: 0.24,
-                                     fontWeight: FontWeight.w500,
-                                     height: 2,
-                                   ),
-                                   textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
-                                   softWrap: false,
-                                   overflow: TextOverflow.fade,
-                                   maxLines: 1,
-                                 ),
-                                 Container(
-                                   width: 100,
-                                   height: 30,
-                                   decoration: BoxDecoration(
-                                     color: const Color(0xffc54f0d),
-                                     borderRadius: BorderRadius.circular(6.0),
-                                   ),
-                                   child: const Center(
-                                     child: Text(
-                                       "View Details",
-                                       style: TextStyle(
-                                         fontFamily: 'lato',
-                                         fontSize: 12,
-                                         color: Colors.white,
-                                         height: 2,
+                                 GestureDetector(
+                                   onTap:() async{
+                                    // final url = data.NotesItems[i].filenames[];
+                                     final url  = "http://www.pdf995.com/samples/pdf.pdf";
+                                     final file = await PDFAPI.loadNetwork(url);
+                                     openPDF(context,file,url);
+                                   },
+                                   child: Container(
+                                     width: 100,
+                                     height: 30,
+                                     decoration: BoxDecoration(
+                                       color: const Color(0xffc54f0d),
+                                       borderRadius: BorderRadius.circular(6.0),
+                                     ),
+                                     child: const Center(
+                                       child: Text(
+                                         "View Details",
+                                         style: TextStyle(
+                                           fontFamily: 'lato',
+                                           fontSize: 12,
+                                           color: Colors.white,
+                                           height: 2,
+                                         ),
+                                         textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+                                         softWrap: false,
                                        ),
-                                       textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
-                                       softWrap: false,
                                      ),
                                    ),
                                  ),
@@ -197,24 +227,24 @@ class _NotesState extends State<Notes> {
                                        margin: const EdgeInsets.only(top: 5),
                                        child: Column(
                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                         children: const [
-                                           Text("Notes title",
+                                         children:  [
+                                           Text(data.NotesItems[i].title,
                                              overflow: TextOverflow.fade,
                                              maxLines: 2,
-                                             style: TextStyle(
+                                             style: const TextStyle(
                                                fontFamily: 'Roboto',
                                                fontSize: 14,
                                                color: Color(0xcc000000),
                                                fontWeight: FontWeight.w500,
                                                height: 1.2307692307692308,
                                              ),
-                                             textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+                                             textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
                                            ),
-                                           SizedBox(
+                                           const SizedBox(
                                              height: 5,
                                            ),
 
-                                           Text("Subject",
+                                            Text(data.NotesItems[i].subject,
                                              overflow: TextOverflow.fade,
                                         style: TextStyle(
                                                fontFamily: 'Roboto',
@@ -225,7 +255,7 @@ class _NotesState extends State<Notes> {
                                              textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
                                              softWrap: false,
                                            ),
-                                           SizedBox(
+                                           const SizedBox(
                                              height: 10,
                                            ),
                                          ],
@@ -240,7 +270,7 @@ class _NotesState extends State<Notes> {
                          ],
                        ),
                      ),
-                   ],
+                ),
                 ),
           ]
           ),
@@ -248,4 +278,7 @@ class _NotesState extends State<Notes> {
       ),
 
       );  }
+}
+void openPDF(BuildContext context, File file,String url) {
+  Navigator.push(context, MaterialPageRoute(builder: (context)=>PDFViewerPage(file: file,url: url,)));
 }

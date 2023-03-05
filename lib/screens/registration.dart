@@ -3,6 +3,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:nepapp/models/city_model.dart';
+import 'package:nepapp/models/institute_model.dart';
 import 'package:nepapp/provider/register_provider.dart';
 import 'package:nepapp/utils/colorConstants.dart';
 import 'package:provider/provider.dart';
@@ -28,36 +30,33 @@ class _RegistrationState extends State<Registration> with SingleTickerProviderSt
     _controller = AnimationController(vsync: this);
   }
 
-  List<String> type = ["Select", "Staff"];
   List<String> gender  = ["Select Gender","Male","Female","Others"];
-  List<String> semester = ["Select Semester","I","II","III","IV","V","VI","VII","VIII"];
-  List<String> city = ["Select City"];
-  List<String> institution = ["Select Institute"];
-  List<String> course = ["Select Course"];
-  List<String> stream = ["Select Stream"];
+  List<String> semester = ["Select Semester","1","2","3","4","5","6","7","8"];
+  List<String> course = ["Select Course","ISE","ME","CSE","CSE-CY","AI&ML"];
+  List<String> stream = ["Select Stream","BE","BSC","MCA","MBA"];
 
 
 
-//  @override
-//   void didChangeDependencies() {
-//     super.didChangeDependencies();
-//     if (_isInit) {
-//       Provider.of<RegisterProvider>(context, listen: false).getCity();
-//       setState(() {
-//         _isInit = false;
-//       });
-//     }
-//
-//
-//   }
-//   @override
-//   void dispose() {
-//       setState(() {
-//         _isInit = true;
-//       });
-//
-//     super.dispose();
-//   }
+ @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isInit) {
+      Provider.of<RegisterProvider>(context, listen: false).getCity();
+      setState(() {
+        _isInit = false;
+      });
+    }
+
+
+  }
+  @override
+  void dispose() {
+      setState(() {
+        _isInit = true;
+      });
+
+    super.dispose();
+  }
 
 
   @override
@@ -461,16 +460,17 @@ class _RegistrationState extends State<Registration> with SingleTickerProviderSt
                         const Icon(Icons.arrow_drop_down, color: Colors.black),
                         onChanged: (newValue) {
                           reg.updateCityName(newValue!);
+                          reg.instituteName = "Select Institute";
                         },
-                        items: city.map((String value) {
+                        items: reg.CityItems.map((cityModel value) {
                           return DropdownMenuItem<String>(
-                            value: value,
+                            value: value.name,
                             child: Row(
                               children: [
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                Text(value,
+                                Text(value.name,
                                     style: const TextStyle(
                                       fontFamily: "lato",
                                       color: Colors.black,
@@ -530,15 +530,15 @@ class _RegistrationState extends State<Registration> with SingleTickerProviderSt
                         onChanged: (newValue) {
                           reg.updateInstitute(newValue!);
                         },
-                        items: institution.map((String value) {
+                        items: reg.IntItems.map((instituteModel value) {
                           return DropdownMenuItem<String>(
-                            value: value,
+                            value: value.name,
                             child: Row(
                               children: [
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                Text(value,
+                                Text(value.name,
                                     style: const TextStyle(
                                       fontFamily: "lato",
                                       color: Colors.black,
@@ -699,7 +699,7 @@ class _RegistrationState extends State<Registration> with SingleTickerProviderSt
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(primary: const Color(0xffc54f0d)),
                       onPressed: () {
-                     //   reg.register(context);
+                        reg.register(context);
                       },
                       child: Container(
                         width: width,

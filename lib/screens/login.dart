@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nepapp/provider/auth_provider.dart';
 import 'package:nepapp/provider/register_provider.dart';
+import 'package:nepapp/provider/user_provider.dart';
 import 'package:nepapp/screens/main_class.dart';
 import 'package:provider/provider.dart';
 class Login extends StatefulWidget {
@@ -10,11 +12,14 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login> with SingleTickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
-    var reg = Provider.of<RegisterProvider>(context);
     //     var data = Provider.of<Onboarding>(context);
+    var auth = Provider.of<AuthProvider>(context);
+    var data = Provider.of<UserProvider>(context);
+
+
 
 
     double height = MediaQuery.of(context).size.height;
@@ -110,7 +115,7 @@ class _LoginState extends State<Login> {
                   height: 50,
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: TextFormField(
-                    controller: reg.emailController,
+                    controller: auth.emailController,
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) {
 
@@ -142,7 +147,7 @@ class _LoginState extends State<Login> {
                   height: 50,
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: TextFormField(
-                    controller: reg.passwordController,
+                    controller: auth.passwordController,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     onChanged: (value) {
@@ -162,7 +167,8 @@ class _LoginState extends State<Login> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(primary: const Color(0xffc54f0d)),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MainScreen()));
+                        auth.Login(context);
+                       // data.UserData(context);
                       },
                       child: Container(
                         width: width,

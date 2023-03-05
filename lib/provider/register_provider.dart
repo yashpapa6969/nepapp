@@ -8,6 +8,7 @@ import 'package:nepapp/repo/home_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
+
 class RegisterProvider with ChangeNotifier {
   final HomeRepository _homeRepo = HomeRepository();
   HomeRepository get homeRepo => _homeRepo;
@@ -52,18 +53,36 @@ class RegisterProvider with ChangeNotifier {
     return [..._CityItems];
   }
 
- // getCity() async {
-  //     _CityItems = [];
-  //     _CityItems.add(cityModel(id: "0", name: "Select City"));
-  //     await _homeRepo.fetchAndSetCity().then((response) {
-  //       final responseData = json.decode(response);
-  //       responseData['cities'].forEach((prodData) {
-  //         _CityItems.add(cityModel(id: prodData['_id'], name: prodData['name']));
-  //       });
-  //     });
-  //
-  //     notifyListeners();
-  //   }
+ getCity() async {
+      _CityItems = [];
+      _CityItems.add(cityModel(id: "0", name: "Select City"));
+      await _homeRepo.fetchAndSetCity().then((response) {
+        final responseData = json.decode(response);
+        responseData['cities'].forEach((prodData) {
+          _CityItems.add(cityModel(id: prodData['city_id'], name: prodData['name']));
+        });
+      });
+
+      notifyListeners();
+    }
+  getInstitute() async {
+    _IntItems = [];
+    _IntItems.add(instituteModel(
+      id: "0",
+      name: "Select Institute",
+    ));
+
+    await _homeRepo.fetchAndSetInstitute(cityName).then((response) {
+      final responseData = json.decode(response);
+      responseData['institutes'].forEach((prodData) {
+        _IntItems.add(
+            instituteModel(id: prodData['institute_id'], name: prodData['name']));
+      });
+    });
+
+    notifyListeners();
+  }
+
 
   void updateInstitute(String value) {
     instituteName = value;
@@ -84,22 +103,12 @@ class RegisterProvider with ChangeNotifier {
         city_id = city.id;
       }
     }
-    //getInstitute();
+
+    getInstitute();
     notifyListeners();
   }
 
-  void revupdateCityName(
-    String value,
-  ) {
-    cityName = value;
-    for (var city in CityItems) {
-      if (city.name == value) {
-        city_id = city.id;
-      }
-    }
-    //getInstitute();
-    notifyListeners();
-  }
+
 
   void updateUserType(String value) {
     user = value;
@@ -145,68 +154,41 @@ class RegisterProvider with ChangeNotifier {
 //     notifyListeners();
 //   }
 
-//  register(BuildContext context) async {
-//     bool emailValid = RegExp(
-//             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-//         .hasMatch(emailController.text);
-//     nameError = false;
-//     emailError = false;
-//     cityNameError = false;
-//     instituteNameError = false;
-//     city_idError = false;
-//     notifyListeners();
-//     if (nameController.text.isEmpty &&
-//         emailValid == true &&
-//         emailController.text.isEmpty &&
-//         cityName == "Select City" &&
-//         city_id == "0" &&
-//         instituteName == "Select Institute") {
-//       nameError = true;
-//       emailError = true;
-//       cityNameError = true;
-//       instituteNameError = true;
-//       city_idError = true;
-//     } else if (nameController.text.isEmpty) {
-//       nameError = true;
-//     } else if (emailController.text.isEmpty && emailValid == false) {
-//       emailError = true;
-//     } else if (cityName == "Select City") {
-//       cityNameError = true;
-//     } else if (instituteName == "Select Institute") {
-//       instituteNameError = true;
-//     } else if (city_id == "0") {
-//       city_idError = true;
-//     } else {
-//       await _homeRepo
-//           .register(
-//         profileImage,
-//         nameController.text,
-//         emailController.text,
-//         institude_id,
-//         city_id,
-//         user,
-//       )
-//           .then((response) async {
-//         final responseData = json.decode(response);
-//         print(responseData);
-//         print(responseData["message"]);
-//         await SharedPreferences.getInstance().then((prefs) {
-//           // prefs.setString('_id', _id);
-//           prefs.setString('mobile_token', '');
-//           prefs.setString("mobile_id", '');
-//           _showDialog("Register Successful, Please login", context);
-//           // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen()));
-//         });
-//       });
-//     }
-//     notifyListeners();
-//   }
+ register(BuildContext context) async {
+
+      await _homeRepo
+          .register(
+          nameController.text,
+          emailController.text,
+           passwordController.text,
+           gender,
+           semester,
+        city_id,
+        institude_id,
+           stream,
+        courseName,
+      )
+          .then((response) async {
+        final responseData = json.decode(response);
+        print(responseData);
+        print(responseData["message"]);
+       // await SharedPreferences.getInstance().then((prefs) {
+        //           // prefs.setString('_id', _id);
+        //           prefs.setString('mobile_token', '');
+        //           prefs.setString("mobile_id", '');
+        //           _showDialog("Register Successful, Please login", context);
+        //           // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainScreen()));
+        //         });
+      });
+
+    notifyListeners();
+  }
 
   void _showDialog(String message, BuildContext context) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Yellow Bus!'),
+        title: const Text('NepAPP!'),
         content: Text(message),
         actions: <Widget>[
           ElevatedButton(
@@ -219,16 +201,18 @@ class RegisterProvider with ChangeNotifier {
             ),
             child: const Text('Okay'),
             onPressed: () {
-              profileImage = "";
               nameController.text = "";
               emailController.text = "";
+              passwordController.text="";
               cityName = "Select City";
               city_id = "0";
               institude_id = "0";
-              user = 'Teacher';
+               courseName = "Select Course";
+               stream = "Select Stream";
+               gender = "Select Gender";
+               semester = "Select Semester";
 
               instituteName = 'Select Institute';
-              profileImage = "";
               notifyListeners();
               Navigator.of(ctx).pop();
             },

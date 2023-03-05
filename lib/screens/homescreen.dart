@@ -1,6 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nepapp/provider/user_provider.dart';
+import 'package:nepapp/screens/attendance.dart';
+import 'package:nepapp/screens/marks.dart';
+import 'package:provider/provider.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -8,9 +12,38 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
+  static var _isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isInit) {
+      Provider.of<UserProvider>(context, listen: false).AllCourseName(context);
+      Provider.of<UserProvider>(context, listen: false).AllSubject(context);
+      Provider.of<UserProvider>(context, listen: false).UserData(context);
+      Provider.of<UserProvider>(context, listen: false).AllMarks();
+
+      setState(() {
+        _isInit = false;
+      });
+    }
+
+
+  }
+  @override
+  void dispose() {
+    setState(() {
+      _isInit = true;
+    });
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    var data = Provider.of<UserProvider>(context);
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -52,238 +85,259 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(height: 20,),
-                  Container(decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                    width: width,
-                    child:Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    controller: ScrollController(),
+                    itemCount: data.UserItems.length,
+                    itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+                      // builder: (c) => products[i],
+                      value: data.UserItems[i],
+                    child: Container(decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                      width: width,
+                      child:Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
 
-                        ),
-                        padding: const EdgeInsets.only(left: 10,bottom: 10,right: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 20,),
-                           const Text(
-                              "Basic Information.",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontFamily: "lato",
-                                fontWeight: FontWeight.w700,
+                          ),
+                          padding: const EdgeInsets.only(left: 10,bottom: 10,right: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 20,),
+                             const Text(
+                                "Basic Information.",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontFamily: "lato",
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 30,),
-                            Container(width: width,
-                              padding: const EdgeInsets.all(10),
-                              decoration: const BoxDecoration(
-                                color: Color(0x99dda107),
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                              const SizedBox(height: 30,),
+                              Container(width: width,
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
+                                  color: Color(0x99dda107),
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
 
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    child: const Text(
-                                      "Matriculation No.        ${"1MS21CY051"}",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontFamily: "lato",
-                                        fontWeight: FontWeight.w500,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      child:  Text(
+                                        "Matriculation No.${data.UserItems[i].emailAddress}",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontFamily: "lato",
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 5,),
-                                  Container(
-                                    child: const Text(
-                                      "Full Name         ${"Yash Gupta"}",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontFamily: "lato",
-                                        fontWeight: FontWeight.w500,
+                                    const SizedBox(height: 5,),
+                                    Container(
+                                      child:  Text(
+                                        "Full Name         ${data.UserItems[i].name}",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontFamily: "lato",
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 5,), Container(
-                                    child: const Text(
-                                      "Faculty         ${"BE"}",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontFamily: "lato",
-                                        fontWeight: FontWeight.w500,
+                                    const SizedBox(height: 5,), Container(
+                                      child:  Text(
+                                        "Faculty         ${data.UserItems[i].stream}",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontFamily: "lato",
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 5,), Container(
-                                    child: const Text(
-                                      "Major         ${"Cybersecurity"}",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontFamily: "lato",
-                                        fontWeight: FontWeight.w500,
+                                    const SizedBox(height: 5,), Container(
+                                      child:  Text(
+                                        "Major         ${data.UserItems[i].branch}",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontFamily: "lato",
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 5,), Container(
-                                    child: const Text(
-                                      "Current Semester         ${"III"}",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        fontFamily: "lato",
-                                        fontWeight: FontWeight.w500,
+                                    const SizedBox(height: 5,), Container(
+                                      child:  Text(
+                                        "Current Semester         ${data.UserItems[i].semester}",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontFamily: "lato",
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 5,),
+                                    const SizedBox(height: 5,),
 
 
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                      )
+                    ),
+                    ),
                   ),
                   const SizedBox(height: 20,),
                   CarouselSlider( options: CarouselOptions(aspectRatio: 2,viewportFraction: 0.5,initialPage: 0,
 
                   ),
             items: [
-              Container(padding: EdgeInsets.all(5),
-                width: width*0.80,
-                height: 86,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x66000000),
-                      blurRadius: 15,
-                      offset: Offset(0, 8),
-                    ),
-                  ],
-                  color: Color(0xffc54f0d),
-                ),
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-
-                  children: [
-                    Text(
-
-                      "Class attendance",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontFamily: "Chillax",
-                        fontWeight: FontWeight.w500,
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Attendance()));
+                },
+                child: Container(padding: EdgeInsets.all(5),
+                  width: width*0.80,
+                  height: 86,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x66000000),
+                        blurRadius: 15,
+                        offset: Offset(0, 8),
                       ),
-                    ),
-                    SizedBox(height: 10,),
-                    Container(
-                      width: 49,
-                      height: 49,
-                      child: Stack(
-                        children:[
-                          Container(
-                            width: 49,
-                            height: 49,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.black, width: 2.45, ),
-                              color: Colors.white,
+                    ],
+                    color: Color(0xffc54f0d),
+                  ),
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+
+                    children: [
+                      Text(
+
+                        "Class attendance",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontFamily: "Chillax",
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      Container(
+                        width: 49,
+                        height: 49,
+                        child: Stack(
+                          children:[
+                            Container(
+                              width: 49,
+                              height: 49,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.black, width: 2.45, ),
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          Positioned.fill(
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                width: 9.80,
-                                height: 15.87,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(image: Image.asset("assets/icons/arrow.png").image)
+                            Positioned.fill(
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  width: 9.80,
+                                  height: 15.87,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(image: Image.asset("assets/icons/arrow.png").image)
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              Container(padding: EdgeInsets.all(5),
-                width: width*0.80,
-                height: 86,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x66000000),
-                      blurRadius: 15,
-                      offset: Offset(0, 8),
-                    ),
-                  ],
-                  color: Color(0xffc54f0d),
-                ),
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+              GestureDetector(onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Marks()));
 
-                  children: [
-                    Text(
 
-                      "Class Marks",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontFamily: "Chillax",
-                        fontWeight: FontWeight.w500,
+              },
+                child: Container(padding: EdgeInsets.all(5),
+                  width: width*0.80,
+                  height: 86,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x66000000),
+                        blurRadius: 15,
+                        offset: Offset(0, 8),
                       ),
-                    ),
-                    SizedBox(height: 10,),
-                    Container(
-                      width: 49,
-                      height: 49,
-                      child: Stack(
-                        children:[
-                          Container(
-                            width: 49,
-                            height: 49,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.black, width: 2.45, ),
-                              color: Colors.white,
+                    ],
+                    color: Color(0xffc54f0d),
+                  ),
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+
+                    children: [
+                      Text(
+
+                        "Class Marks",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontFamily: "Chillax",
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      Container(
+                        width: 49,
+                        height: 49,
+                        child: Stack(
+                          children:[
+                            Container(
+                              width: 49,
+                              height: 49,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.black, width: 2.45, ),
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          Positioned.fill(
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                width: 9.80,
-                                height: 15.87,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(image: Image.asset("assets/icons/arrow.png").image)
+                            Positioned.fill(
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  width: 9.80,
+                                  height: 15.87,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(image: Image.asset("assets/icons/arrow.png").image)
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Container(padding: EdgeInsets.all(5),

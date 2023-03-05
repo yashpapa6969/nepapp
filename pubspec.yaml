@@ -49,6 +49,9 @@ dependencies:
   permission_handler: ^10.2.0
   flutter_pdfview: ^1.2.5
   dio: ^5.0.1
+  intl: ^0.17.0
+  rflutter_alert: any
+
 
 
 

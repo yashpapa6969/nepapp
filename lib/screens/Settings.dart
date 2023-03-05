@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nepapp/screens/about_first.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
 
@@ -112,7 +121,7 @@ class _SettingsState extends State<Settings> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(primary:  Color(0xffc54f0d)),
                       onPressed: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>About()));
+                        _showLogoutAlert();
 
                       },
                       child: Container(
@@ -137,7 +146,90 @@ class _SettingsState extends State<Settings> {
 
     );
   }
+  void _showLogoutAlert() {
+    var alertStyle = AlertStyle(
+      animationType: AnimationType.fromBottom,
+      isCloseButton: false,
+      isOverlayTapDismiss: true,
+      descStyle: const TextStyle(fontFamily: "regular", fontSize: 14),
+      descTextAlign: TextAlign.start,
+      animationDuration: const Duration(milliseconds: 400),
+      alertBorder: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(0.0),
+        side: const BorderSide(
+          color: Colors.grey,
+        ),
+      ),
+      titleStyle: const TextStyle(
+          color: Colors.black, fontFamily: "medium", fontSize: 16),
+      alertAlignment: Alignment.center,
+    );
+    Future.delayed(const Duration(milliseconds: 300), () {
+      Alert(
+        context: context,
+        style: alertStyle,
+        title: "NepApp!!",
+        desc: "Are you sure ?",
+        buttons: [
+          DialogButton(
+            border: const Border.fromBorderSide(
+                BorderSide(color: Colors.black, width: 1)),
+            color: Colors.transparent,
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pop();
+            },
+            width: 120,
+            child: const Text(
+              "Cancel",
+              style: TextStyle(
+                  color: Colors.black, fontSize: 16, fontFamily: "lato"),
+            ),
+          ),
+          DialogButton(
+            color: Colors.transparent,
+            border: const Border.fromBorderSide(
+                BorderSide(color: Colors.red, width: 1)),
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+
+              // final profile = Provider.of<UserProvider>(context);
+              //  profile.profileStatus(false);
+
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+
+              prefs.clear().then((value) {
+                if (value) {
+                  Future.delayed(const Duration(milliseconds: 800), () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      // the new route
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const About(),
+                      ),
+
+                      // this function should return true when we're done removing routes
+                      // but because we want to remove all other screens, we make it
+                      // always return false
+                          (Route route) => false,
+                    );
+                  });
+                }
+              });
+            },
+            width: 120,
+            child: const Text(
+              "LOGOUT",
+              style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 16,
+                  fontFamily: "medium"),
+            ),
+          )
+        ],
+      ).show();
+    });
+  }
 }
+
 //Container(
 //               padding: const EdgeInsets.only(right: 20, left: 20),
 //               height: 60,
